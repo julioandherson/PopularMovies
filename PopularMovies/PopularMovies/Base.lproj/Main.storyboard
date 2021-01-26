@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -36,27 +37,71 @@
         <!--Home-->
         <scene sceneID="BWF-tc-TrZ">
             <objects>
-                <viewController id="PxW-M2-GOo" sceneMemberID="viewController">
+                <viewController id="PxW-M2-GOo" customClass="HomeController" customModule="PopularMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Wn-9W-AO9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRx-gp-1Zv">
-                                <rect key="frame" x="201" y="438" width="12" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eMT-vE-pso">
+                                <rect key="frame" x="4" y="86" width="414" height="250"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="7dZ-NP-4C4"/>
+                                    <constraint firstAttribute="width" constant="414" id="T9q-MM-Ba0"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zRk-ds-tzh">
+                                    <size key="itemSize" width="150" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieViewCell" id="ROH-Ml-VYb" customClass="MovieViewCell" customModule="PopularMovies" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="25" width="150" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Xab-ey-Ikl">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TMDBLogo" translatesAutoresizingMaskIntoConstraints="NO" id="i7Q-4s-TDK">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="BCU-cq-GHR"/>
+                                                        <constraint firstAttribute="height" constant="200" id="UfV-gA-2xr"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="i7Q-4s-TDK" firstAttribute="top" secondItem="Xab-ey-Ikl" secondAttribute="top" id="EqA-76-0QD"/>
+                                                <constraint firstAttribute="bottom" secondItem="i7Q-4s-TDK" secondAttribute="bottom" id="ToK-cA-CuS"/>
+                                                <constraint firstAttribute="trailing" secondItem="i7Q-4s-TDK" secondAttribute="trailing" id="Ual-Ua-ZGn"/>
+                                                <constraint firstItem="i7Q-4s-TDK" firstAttribute="leading" secondItem="Xab-ey-Ikl" secondAttribute="leading" id="aGl-l0-jWS"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="150" height="200"/>
+                                        <connections>
+                                            <outlet property="poster" destination="i7Q-4s-TDK" id="Rte-Xs-pnE"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="90F-gD-3Ob"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eMT-vE-pso" firstAttribute="top" secondItem="90F-gD-3Ob" secondAttribute="top" constant="42" id="GBi-Zq-39h"/>
+                            <constraint firstItem="eMT-vE-pso" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" constant="4" id="fFs-bE-Ch7"/>
+                            <constraint firstItem="eMT-vE-pso" firstAttribute="trailing" secondItem="90F-gD-3Ob" secondAttribute="trailing" constant="4" id="fXZ-4u-teU"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="homekit" catalog="system" id="hIk-7s-H51"/>
+                    <connections>
+                        <outlet property="collectionView" destination="eMT-vE-pso" id="YPx-to-ACN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KaT-71-2sX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="-524"/>
+            <point key="canvasLocation" x="1705.7971014492755" y="-524.33035714285711"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Pa1-FC-ctN">
