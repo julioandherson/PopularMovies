@@ -4,10 +4,16 @@ class HomeController: UIViewController {
     // MARK: - Outlets
     /// The movies collection view.
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    /// The search bar.
+    @IBOutlet weak var searchBar: UISearchBar!
+    /// The loading indicator.
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+
     // MARK: - Properties
     /// The home view model.
     let homeViewModel = HomeViewModel()
+    /// The network manager.
+    let networkManager = NetworkManager()
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -16,16 +22,18 @@ class HomeController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        searchBar.delegate = self
+        
         fetchMovies()
     }
     
     // MARK: - Public functions
     /// Fetch movies and set movie list.
     func fetchMovies() {
-        let networkManager = NetworkManager()
+        loadingIndicator.isHidden = false
         networkManager.fetchPopularMovies { movies in
-            print("===> MOVIES: \(movies)")
             self.homeViewModel.movies = movies
+            self.loadingIndicator.isHidden = true
         }
         self.collectionView.reloadData()
     }
@@ -45,6 +53,11 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
 
         let movieURL = URL(string: movie.posterPath)!
         movieCell.poster.downloaded(from: movieURL)
+        movieCell.movieTitle.text = movie.title
+        
+        movieCell.favoriteButtonPressed = {
+            print("Favorite movie press: \(movie.title)") // TODO: Implement
+        }
 
         return movieCell
     }
@@ -57,5 +70,23 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
         movieDetailsController.setupMovieDetail(movie: selectedMovie)
         
         self.present(movieDetailsController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Searchbar delegate
+extension HomeController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let searchText = searchBar.text, !searchText.isEmpty {
+
+            networkManager.searchMovies(queryString: searchText, completionHandler: { movies in
+                let storyBoard: UIStoryboard = UIStoryboard(name: Constants.searchResultsView, bundle: nil)
+                DispatchQueue.main.async {
+                    let searchResultsController = storyBoard.instantiateViewController(withIdentifier: Constants.searchResultsController) as! SearchResultsController
+                    searchResultsController.setupSearchResults(query: searchText, movies: movies)
+
+                    self.present(searchResultsController, animated: true, completion: nil)
+                }
+            })
+        }
     }
 }
