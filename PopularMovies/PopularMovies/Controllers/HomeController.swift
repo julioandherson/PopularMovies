@@ -34,8 +34,8 @@ class HomeController: UIViewController {
         networkManager.fetchPopularMovies { movies in
             self.homeViewModel.movies = movies
             self.loadingIndicator.isHidden = true
+            self.collectionView.reloadData()
         }
-        self.collectionView.reloadData()
     }
 }
 
@@ -77,8 +77,9 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
 extension HomeController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, !searchText.isEmpty {
-
+            loadingIndicator.isHidden = false
             networkManager.searchMovies(queryString: searchText, completionHandler: { movies in
+                self.loadingIndicator.isHidden = true
                 let storyBoard: UIStoryboard = UIStoryboard(name: Constants.searchResultsView, bundle: nil)
                 DispatchQueue.main.async {
                     let searchResultsController = storyBoard.instantiateViewController(withIdentifier: Constants.searchResultsController) as! SearchResultsController
@@ -88,5 +89,9 @@ extension HomeController: UISearchBarDelegate {
                 }
             })
         }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
     }
 }

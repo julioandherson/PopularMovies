@@ -32,6 +32,8 @@ class NetworkManager {
             if let data = data {
                 if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let results = json["results"] as? [[String: Any]] {
                     for movie in results {
+                        
+                        // TODO: Put this on methdo to reuse
                         let id = movie["id"] as? Int
                         let originalTitle = movie["original_title"] as? String
                         let title = movie["title"] as? String
@@ -50,7 +52,9 @@ class NetworkManager {
                                             backdropPath: backdropPath,
                                             voteAverage: voteAverage!))
                     }
-                    completionHandler(movies)
+                    DispatchQueue.main.async {
+                        completionHandler(movies)
+                    }
                 }
             }
         })
@@ -63,46 +67,55 @@ class NetworkManager {
     ///   - completionHandler: A closure which is called with searched movies list.
     func searchMovies(queryString: String, completionHandler: @escaping ([Movie]) -> Void) {
         var movies = [Movie]()
-        let url = URL(string: searchURL + queryString)! // TODO: Replace white space to +
 
-        let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-            if let error = error {
-                print("Error fetching movies: \(error)")
-                // TODO: Handler error
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Error with the fetching movies response, unexpected status code: \(String(describing: response))")
-                // TODO: Handler error
-                return
-            }
-
-            if let data = data {
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let results = json["results"] as? [[String: Any]] {
-                    for movie in results {
-                        let id = movie["id"] as? Int
-                        let originalTitle = movie["original_title"] as? String
-                        let title = movie["title"] as? String
-                        let overview = movie["overview"] as? String
-                        var posterPath = self.imageDomain
-                        posterPath += movie["poster_path"] as? String ?? ""
-                        var backdropPath = self.imageDomain
-                        backdropPath += movie["backdrop_path"] as? String ?? ""
-                        let voteAverage = movie["vote_average"] as? Double
-
-                        movies.append(Movie(id: id!,
-                                            originalTitle: originalTitle!,
-                                            title: title!,
-                                            overview: overview!,
-                                            posterPath: posterPath,
-                                            backdropPath: backdropPath,
-                                            voteAverage: voteAverage!))
-                    }
-                    completionHandler(movies)
+        let querySearch = queryString.removeExtraSpaces().replacingOccurrences(of: " ", with: "+")
+        if let url = URL(string: searchURL + querySearch) {
+            let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                if let error = error {
+                    print("Error fetching movies: \(error)")
+                    // TODO: Handler error
+                    return
                 }
-            }
-        })
-        task.resume()
-      }
+
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    print("Error with the fetching movies response, unexpected status code: \(String(describing: response))")
+                    // TODO: Handler error
+                    return
+                }
+
+                if let data = data {
+                    if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let results = json["results"] as? [[String: Any]] {
+                        for movie in results {
+                            
+                            // TODO: Put this on methdo to reuse
+                            let id = movie["id"] as? Int
+                            let originalTitle = movie["original_title"] as? String
+                            let title = movie["title"] as? String
+                            let overview = movie["overview"] as? String
+                            var posterPath = self.imageDomain
+                            posterPath += movie["poster_path"] as? String ?? ""
+                            var backdropPath = self.imageDomain
+                            backdropPath += movie["backdrop_path"] as? String ?? ""
+                            let voteAverage = movie["vote_average"] as? Double
+
+                            movies.append(Movie(id: id!,
+                                                originalTitle: originalTitle!,
+                                                title: title!,
+                                                overview: overview!,
+                                                posterPath: posterPath,
+                                                backdropPath: backdropPath,
+                                                voteAverage: voteAverage!))
+                        }
+                        DispatchQueue.main.async {
+                            completionHandler(movies)
+                        }
+                    }
+                }
+            })
+            task.resume()
+        } else {
+            print("URL error with follow query: \(querySearch)")
+            // TODO: Handle search error
+        }
+    }
 }
