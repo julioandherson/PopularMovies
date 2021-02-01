@@ -1,5 +1,6 @@
 import UIKit
 
+/// Controller responsible to display main view in which is displayed popular movies.
 class HomeController: UIViewController {
     // MARK: - Outlets
     /// The movies collection view.

@@ -22,11 +22,3 @@ extension UIImageView {
         }.resume()
     }
 }
-
-extension String {
-    /// Trim String and remove extra spaces between words. E.G.: '     Star    Wars     ' -> 'Star Wars'.
-    /// - Returns: A String with no extra spaces.
-    func removeExtraSpaces() -> String {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "[\\s\n]+", with: " ", options: .regularExpression, range: nil)
-    }
-}
