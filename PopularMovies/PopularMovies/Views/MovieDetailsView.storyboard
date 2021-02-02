@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -55,7 +56,10 @@
                                     <constraint firstAttribute="width" constant="22" id="Ake-f9-MAm"/>
                                 </constraints>
                                 <color key="tintColor" red="0.97647058819999999" green="0.96862745100000003" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="star" catalog="system"/>
+                                <state key="normal" image="StarEmpty"/>
+                                <connections>
+                                    <action selector="favoriteMovieAction:" destination="wgI-V2-8fT" eventType="touchUpInside" id="Uwd-N2-bpI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Xz9-Su-F3H"/>
@@ -79,6 +83,7 @@
                     </view>
                     <connections>
                         <outlet property="backdropImage" destination="zYV-P0-6dc" id="pc8-NK-7S9"/>
+                        <outlet property="favoriteButton" destination="uZN-Xq-Y7x" id="NXC-eI-j0V"/>
                         <outlet property="movieTitle" destination="rn2-qM-zdX" id="cGM-Pc-JuG"/>
                         <outlet property="overview" destination="48Y-FO-A8d" id="3RQ-yd-xbL"/>
                         <outlet property="voteAverage" destination="X6X-e8-0RN" id="Ztj-Em-YJW"/>
@@ -90,7 +95,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="star" catalog="system" width="128" height="116"/>
+        <image name="StarEmpty" width="50" height="50"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

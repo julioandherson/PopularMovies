@@ -1,5 +1,5 @@
 # PopularMovies
-It's a iOS app to list popular movies and this list is updated every day. Also it's possible search movies and keep favorites movies on a list (not implemented yet)
+It's a iOS app to list popular movies and this list is updated every day. Also it's possible search movies and keep favorites movies on a list.
 
 ## To do list
 - Tests
