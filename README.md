@@ -3,7 +3,6 @@ It's a iOS app to list popular movies and this list is updated every day. Also i
 
 ## To do list
 - Tests
-- Favorites persistence
 - Errors handler
 - Landscape support
 
@@ -18,7 +17,8 @@ Run using XCode:
  - Run
 
 ## API
-TMDB it's an API to provide fetch movies, series and tv shows data
+- TMDB it's an API to provide fetch movies, series and tv shows data
+- UserDefaultsStore it's an API to store objects persistently using Codable protocol
 
 ## Architecture
 MVVM - Model View ViewModel

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,8 @@
 		2851C43D25C79C9C009CF86B /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851C43C25C79C9C009CF86B /* Pagination.swift */; };
 		2851C44825C7A479009CF86B /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851C44725C7A479009CF86B /* APIResponse.swift */; };
 		2851C46625C8ECAD009CF86B /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851C46525C8ECAD009CF86B /* MovieViewModel.swift */; };
+		2851C47425C8F157009CF86B /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851C47325C8F157009CF86B /* PersistenceManager.swift */; };
+		2851C47D25C8FD06009CF86B /* UserDefaultsStore in Frameworks */ = {isa = PBXBuildFile; productRef = 2851C47C25C8FD06009CF86B /* UserDefaultsStore */; };
 		28C8B49025BDC78C0012F975 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C8B48F25BDC78C0012F975 /* AppDelegate.swift */; };
 		28C8B49225BDC78C0012F975 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C8B49125BDC78C0012F975 /* SceneDelegate.swift */; };
 		28C8B49425BDC78C0012F975 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C8B49325BDC78C0012F975 /* ViewController.swift */; };
@@ -69,6 +71,7 @@
 		2851C43C25C79C9C009CF86B /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		2851C44725C7A479009CF86B /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		2851C46525C8ECAD009CF86B /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		2851C47325C8F157009CF86B /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		28C8B48C25BDC78C0012F975 /* PopularMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopularMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C8B48F25BDC78C0012F975 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28C8B49125BDC78C0012F975 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2851C47D25C8FD06009CF86B /* UserDefaultsStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				281720CE25BFA51E009E4B2C /* NetworkManager.swift */,
+				2851C47325C8F157009CF86B /* PersistenceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -275,6 +280,9 @@
 			dependencies = (
 			);
 			name = PopularMovies;
+			packageProductDependencies = (
+				2851C47C25C8FD06009CF86B /* UserDefaultsStore */,
+			);
 			productName = PopularMovies;
 			productReference = 28C8B48C25BDC78C0012F975 /* PopularMovies.app */;
 			productType = "com.apple.product-type.application";
@@ -346,6 +354,9 @@
 				Base,
 			);
 			mainGroup = 28C8B48325BDC78C0012F975;
+			packageReferences = (
+				2851C47B25C8FD06009CF86B /* XCRemoteSwiftPackageReference "UserDefaultsStore" */,
+			);
 			productRefGroup = 28C8B48D25BDC78C0012F975 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -407,6 +418,7 @@
 				281720FD25C0EE54009E4B2C /* MovieDetailsViewModel.swift in Sources */,
 				28C8B49225BDC78C0012F975 /* SceneDelegate.swift in Sources */,
 				281720C625BF9915009E4B2C /* MovieViewCell.swift in Sources */,
+				2851C47425C8F157009CF86B /* PersistenceManager.swift in Sources */,
 				281720D825BFA5EA009E4B2C /* Constants.swift in Sources */,
 				2851C44825C7A479009CF86B /* APIResponse.swift in Sources */,
 			);
@@ -743,6 +755,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2851C47B25C8FD06009CF86B /* XCRemoteSwiftPackageReference "UserDefaultsStore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/omaralbeik/UserDefaultsStore.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2851C47C25C8FD06009CF86B /* UserDefaultsStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2851C47B25C8FD06009CF86B /* XCRemoteSwiftPackageReference "UserDefaultsStore" */;
+			productName = UserDefaultsStore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 28C8B48425BDC78C0012F975 /* Project object */;
 }

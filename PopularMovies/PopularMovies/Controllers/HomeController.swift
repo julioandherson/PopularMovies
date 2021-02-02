@@ -7,6 +7,8 @@ class HomeController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     /// The search bar.
     @IBOutlet weak var searchBar: UISearchBar!
+    /// The popular movies label.
+    @IBOutlet weak var popularMoviesLabel: UILabel!
     /// The loading indicator.
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     /// The page counter.
@@ -23,18 +25,22 @@ class HomeController: UIViewController {
     // MARK: - Properties
     /// The movie view model.
     let movieViewModel = MovieViewModel()
-
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupLabelsText()
-        
+
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        searchBar.delegate = self
 
+        searchBar.delegate = self
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         fetchMovies()
     }
 
@@ -68,10 +74,19 @@ class HomeController: UIViewController {
     /// Setup button labels text.
     func setupLabelsText() {
         pageCount.text = "1"
+        popularMoviesLabel.text = "PopularMovies".localized()
         firstPageButton.setTitle("first".localized(), for: .normal)
         previousPageButton.setTitle("previous".localized(), for: .normal)
         nextPageButton.setTitle("next".localized(), for: .normal)
         lastPageButton.setTitle("last".localized(), for: .normal)
+    }
+
+    /// Change favorite icon acordlying movie persistence.
+    /// - Parameter isFavorited: The is favorite flag.
+    /// - Returns: A UIImage containing a filled star or empty star icon.
+    func setupFavoriteImage(isFavorited: Bool) -> UIImage {
+        let resourceName = isFavorited ? Constants.starFilled : Constants.starEmpty
+        return UIImage(imageLiteralResourceName: resourceName)
     }
 
     /// Display error alert.
@@ -135,10 +150,21 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
         movieCell.poster.downloaded(from: movieURL)
         movieCell.movieTitle.text = movie.title
         
-        movieCell.favoriteButtonPressed = {
-            print("Favorite movie press: \(movie.title)") // TODO: Implement
+        if movieViewModel.hasMovie(id: movie.id) {
+            movieCell.favoriteIcon.setImage(setupFavoriteImage(isFavorited: true), for: .normal)
+        } else {
+            movieCell.favoriteIcon.setImage(setupFavoriteImage(isFavorited: false), for: .normal)
         }
 
+        movieCell.favoriteButtonPressed = {
+            if self.movieViewModel.hasMovie(id: movie.id) {
+                movieCell.favoriteIcon.setImage(self.setupFavoriteImage(isFavorited: false), for: .normal)
+                self.movieViewModel.persistenceManager.deleteMovie(id: movie.id)
+            } else {
+                movieCell.favoriteIcon.setImage(self.setupFavoriteImage(isFavorited: true), for: .normal)
+                self.movieViewModel.persistenceManager.save(movie: movie)
+            }
+        }
         return movieCell
     }
     

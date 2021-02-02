@@ -1,5 +1,9 @@
 // Home Controller
+"PopularMovies" = "POPULAR MOVIES";
 "first" = "First";
 "last" = "Last";
 "previous" = "Previous";
 "next" = "Next";
+
+// Favorites Controller
+"FavoritesMovies" = "FAVORITES MOVIES";

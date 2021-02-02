@@ -15,4 +15,11 @@ class Constants {
     
     // MARK: - Cells id
     static let movieCell = "movieViewCell"
+    
+    // MARK: - Movie database id
+    static let moviesStoreId = "movies"
+    
+    // MARK: - Icons name
+    static let starFilled = "StarFilled"
+    static let starEmpty = "StarEmpty"
 }

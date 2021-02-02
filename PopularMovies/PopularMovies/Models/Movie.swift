@@ -1,5 +1,5 @@
 /// The entity representing movie.
-struct Movie {
+struct Movie: Codable, Identifiable {
     /// The movie id.
     var id: Int
     /// The original movie title.
