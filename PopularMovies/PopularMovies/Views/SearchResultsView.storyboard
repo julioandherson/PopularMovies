@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -90,21 +91,87 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1Y-Dx-N1c">
+                                <rect key="frame" x="334" y="466" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="CmA-uF-MHh"/>
+                                    <constraint firstAttribute="width" constant="60" id="qvj-C7-XId"/>
+                                </constraints>
+                                <state key="normal" title="Last"/>
+                                <connections>
+                                    <action selector="lastPageAction:" destination="50x-c2-lcs" eventType="touchUpInside" id="NhC-g6-10B"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZV-N6-dyt">
+                                <rect key="frame" x="266" y="465" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="mnJ-rD-EX5"/>
+                                    <constraint firstAttribute="height" constant="30" id="q6g-nl-FN4"/>
+                                </constraints>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextPageAction:" destination="50x-c2-lcs" eventType="touchUpInside" id="VWG-nX-XX3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vib-UA-oSM">
+                                <rect key="frame" x="20" y="466" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="7vz-CY-Y3h"/>
+                                    <constraint firstAttribute="width" constant="60" id="NRe-o3-KVR"/>
+                                </constraints>
+                                <state key="normal" title="First"/>
+                                <connections>
+                                    <action selector="firstPageAction:" destination="50x-c2-lcs" eventType="touchUpInside" id="dTP-R9-8Gr"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEp-Qx-19X">
+                                <rect key="frame" x="176" y="465" width="67" height="32"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLG-SU-xrI">
+                                <rect key="frame" x="88" y="466" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="4Kf-pc-GFO"/>
+                                    <constraint firstAttribute="height" constant="30" id="h5d-i7-NfF"/>
+                                </constraints>
+                                <state key="normal" title="Previous"/>
+                                <connections>
+                                    <action selector="previousPageAction:" destination="50x-c2-lcs" eventType="touchUpInside" id="4p1-zd-9oF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="E9z-C7-lkS"/>
                         <color key="backgroundColor" systemColor="labelColor"/>
                         <constraints>
+                            <constraint firstItem="oZV-N6-dyt" firstAttribute="leading" secondItem="eEp-Qx-19X" secondAttribute="trailing" constant="23" id="4ux-PY-Kxk"/>
+                            <constraint firstItem="vib-UA-oSM" firstAttribute="top" secondItem="u2v-5g-7tv" secondAttribute="bottom" constant="45" id="5h3-PI-N5f"/>
                             <constraint firstItem="rS1-p5-Hmw" firstAttribute="leading" secondItem="E9z-C7-lkS" secondAttribute="leading" constant="20" id="8zC-gu-Q4J"/>
                             <constraint firstItem="E9z-C7-lkS" firstAttribute="trailing" secondItem="rS1-p5-Hmw" secondAttribute="trailing" constant="20" id="AAp-qi-Xu8"/>
                             <constraint firstItem="rS1-p5-Hmw" firstAttribute="top" secondItem="E9z-C7-lkS" secondAttribute="top" constant="36" id="CzD-2b-c5Z"/>
+                            <constraint firstItem="eEp-Qx-19X" firstAttribute="top" secondItem="u2v-5g-7tv" secondAttribute="bottom" constant="44" id="DZo-x7-g8c"/>
                             <constraint firstItem="E9z-C7-lkS" firstAttribute="trailing" secondItem="u2v-5g-7tv" secondAttribute="trailing" constant="20" id="Dch-eM-DpZ"/>
+                            <constraint firstItem="d1Y-Dx-N1c" firstAttribute="leading" secondItem="oZV-N6-dyt" secondAttribute="trailing" constant="8" symbolic="YES" id="NRf-FK-wCW"/>
                             <constraint firstItem="u2v-5g-7tv" firstAttribute="top" secondItem="rS1-p5-Hmw" secondAttribute="bottom" constant="8" symbolic="YES" id="RAs-fN-JnE"/>
+                            <constraint firstItem="E9z-C7-lkS" firstAttribute="trailing" secondItem="d1Y-Dx-N1c" secondAttribute="trailing" constant="20" id="RUM-2p-csV"/>
+                            <constraint firstItem="vib-UA-oSM" firstAttribute="leading" secondItem="E9z-C7-lkS" secondAttribute="leading" constant="20" id="SCt-M2-g4O"/>
+                            <constraint firstItem="gLG-SU-xrI" firstAttribute="top" secondItem="u2v-5g-7tv" secondAttribute="bottom" constant="45" id="UYs-6Q-QBd"/>
                             <constraint firstItem="u2v-5g-7tv" firstAttribute="top" secondItem="rS1-p5-Hmw" secondAttribute="bottom" constant="8" symbolic="YES" id="VPc-BO-gC6"/>
+                            <constraint firstItem="eEp-Qx-19X" firstAttribute="leading" secondItem="gLG-SU-xrI" secondAttribute="trailing" constant="28" id="WJP-Fd-vFo"/>
                             <constraint firstItem="u2v-5g-7tv" firstAttribute="leading" secondItem="E9z-C7-lkS" secondAttribute="leading" constant="20" id="eb7-v6-SoH"/>
+                            <constraint firstItem="gLG-SU-xrI" firstAttribute="leading" secondItem="vib-UA-oSM" secondAttribute="trailing" constant="8" symbolic="YES" id="gUb-E7-ToR"/>
+                            <constraint firstItem="d1Y-Dx-N1c" firstAttribute="top" secondItem="u2v-5g-7tv" secondAttribute="bottom" constant="45" id="vDc-wI-FIw"/>
+                            <constraint firstItem="oZV-N6-dyt" firstAttribute="top" secondItem="u2v-5g-7tv" secondAttribute="bottom" constant="44" id="wOR-kd-oZh"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="u2v-5g-7tv" id="7HP-RD-sc0"/>
+                        <outlet property="firstPageButton" destination="vib-UA-oSM" id="32T-kb-tiW"/>
+                        <outlet property="lastPageButton" destination="d1Y-Dx-N1c" id="TAg-VU-3ic"/>
+                        <outlet property="nextPageButton" destination="oZV-N6-dyt" id="6eF-g4-H9D"/>
+                        <outlet property="pageCount" destination="eEp-Qx-19X" id="g2U-EC-on2"/>
+                        <outlet property="previousPageButton" destination="gLG-SU-xrI" id="PdM-Kw-O7T"/>
                         <outlet property="queryResults" destination="rS1-p5-Hmw" id="qcS-Jf-0Fw"/>
                     </connections>
                 </viewController>

@@ -9,33 +9,112 @@ class HomeController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     /// The loading indicator.
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    /// The page counter.
+    @IBOutlet weak var pageCount: UILabel!
+    /// The first page button.
+    @IBOutlet weak var firstPageButton: UIButton!
+    /// The previous page button.
+    @IBOutlet weak var previousPageButton: UIButton!
+    /// The next page button.
+    @IBOutlet weak var nextPageButton: UIButton!
+    /// The last page button.
+    @IBOutlet weak var lastPageButton: UIButton!
 
     // MARK: - Properties
     /// The home view model.
     let homeViewModel = HomeViewModel()
-    /// The network manager.
-    let networkManager = NetworkManager()
-    
+
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupLabelsText()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         
         searchBar.delegate = self
-        
+
         fetchMovies()
     }
-    
+
     // MARK: - Public functions
     /// Fetch movies and set movie list.
-    func fetchMovies() {
+    /// - Parameter page: The movies page.
+    func fetchMovies(page: Int = 1) {
         loadingIndicator.isHidden = false
-        networkManager.fetchPopularMovies { movies in
-            self.homeViewModel.movies = movies
+
+        homeViewModel.fetchPopularMovies(page: page, completionHandler: { errorResponse in
             self.loadingIndicator.isHidden = true
-            self.collectionView.reloadData()
+
+            if let error = errorResponse { // TODO: use this value
+                let alert = UIAlertController(title: "Request failure", message: "Message", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                self.setupPaginationCounter()
+                self.collectionView.reloadData()
+            }
+        })
+    }
+
+    /// Setup current page label.
+    func setupPaginationCounter() {
+        if let pagination = homeViewModel.pagination {
+            pageCount.text = String(pagination.currentPage)
+        }
+    }
+
+    /// Setup button labels text.
+    func setupLabelsText() {
+        pageCount.text = "1"
+        firstPageButton.setTitle("first".localized(), for: .normal)
+        previousPageButton.setTitle("previous".localized(), for: .normal)
+        nextPageButton.setTitle("next".localized(), for: .normal)
+        lastPageButton.setTitle("last".localized(), for: .normal)
+    }
+
+    /// Display error alert.
+    func showErrorAlert() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Request failure", message: "Message", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    // MARK: - Actions
+    /// Navigate to first page.
+    /// - Parameter sender: The first page button.
+    @IBAction func firstPageAction(_ sender: UIButton) {
+        fetchMovies(page: 1)
+        setupPaginationCounter()
+    }
+    
+    /// Navigate to last page.
+    /// - Parameter sender: The last page button.
+    @IBAction func lastPageAction(_ sender: UIButton) {
+        fetchMovies(page: homeViewModel.pagination.totalPages)
+        setupPaginationCounter()
+    }
+    
+    /// Navigate to previous page.
+    /// - Parameter sender: The previous page button.
+    @IBAction func previousPageAction(_ sender: UIButton) {
+        let currentPage = homeViewModel.pagination.currentPage - 1
+        if currentPage >= 1 {
+            fetchMovies(page: currentPage)
+            setupPaginationCounter()
+        }
+    }
+
+    /// Navigate to next page.
+    /// - Parameter sender: The next page button.
+    @IBAction func nextPageAction(_ sender: UIButton) {
+        let currentPage = homeViewModel.pagination.currentPage + 1
+        if currentPage <= homeViewModel.pagination.totalPages {
+            fetchMovies(page: currentPage)
+            setupPaginationCounter()
         }
     }
 }
@@ -79,14 +158,23 @@ extension HomeController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, !searchText.isEmpty {
             loadingIndicator.isHidden = false
-            networkManager.searchMovies(queryString: searchText, completionHandler: { movies in
+            
+            homeViewModel.querySearch = searchText
+            homeViewModel.searchMovies(completionHandler: { errorResponse in
                 self.loadingIndicator.isHidden = true
-                let storyBoard: UIStoryboard = UIStoryboard(name: Constants.searchResultsView, bundle: nil)
-                DispatchQueue.main.async {
-                    let searchResultsController = storyBoard.instantiateViewController(withIdentifier: Constants.searchResultsController) as! SearchResultsController
-                    searchResultsController.setupSearchResults(query: searchText, movies: movies)
 
-                    self.present(searchResultsController, animated: true, completion: nil)
+                if let error = errorResponse { // TODO: use this value
+                    self.showErrorAlert()
+                } else {
+                    let storyBoard: UIStoryboard = UIStoryboard(name: Constants.searchResultsView, bundle: nil)
+                    DispatchQueue.main.async {
+                        let searchResultsController = storyBoard.instantiateViewController(withIdentifier: Constants.searchResultsController) as! SearchResultsController
+                        searchResultsController.setupSearchResults(query: searchText,
+                                                                   movies: self.homeViewModel.movies,
+                                                                   pagination: self.homeViewModel.pagination!)
+
+                        self.present(searchResultsController, animated: true, completion: nil)
+                    }
                 }
             })
         }

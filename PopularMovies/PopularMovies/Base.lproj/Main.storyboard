@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="txO-7H-oam">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -167,28 +168,96 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZPw-48-IYP">
+                                <rect key="frame" x="20" y="546" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="IAD-gs-3oc"/>
+                                    <constraint firstAttribute="width" constant="60" id="eft-cP-Xt4"/>
+                                </constraints>
+                                <state key="normal" title="First"/>
+                                <connections>
+                                    <action selector="firstPageAction:" destination="PxW-M2-GOo" eventType="touchUpInside" id="UbA-Qt-Kgp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlt-V3-38U">
+                                <rect key="frame" x="334" y="546" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="Tlc-O7-v6o"/>
+                                    <constraint firstAttribute="height" constant="30" id="Yo2-wm-5Cs"/>
+                                </constraints>
+                                <state key="normal" title="Last"/>
+                                <connections>
+                                    <action selector="lastPageAction:" destination="PxW-M2-GOo" eventType="touchUpInside" id="WUJ-SZ-Uha"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M3f-xz-8VP">
+                                <rect key="frame" x="88" y="546" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="NB0-2Y-XA3"/>
+                                    <constraint firstAttribute="width" constant="60" id="tTh-6P-HWX"/>
+                                </constraints>
+                                <state key="normal" title="Previous"/>
+                                <connections>
+                                    <action selector="previousPageAction:" destination="PxW-M2-GOo" eventType="touchUpInside" id="Fqh-OR-8jd"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xO7-mj-e3U">
+                                <rect key="frame" x="176" y="545" width="67" height="32"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GWt-9v-plO">
+                                <rect key="frame" x="266" y="545" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ngV-pd-4xx"/>
+                                    <constraint firstAttribute="width" constant="60" id="zgl-Zj-WLQ"/>
+                                </constraints>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextPageAction:" destination="PxW-M2-GOo" eventType="touchUpInside" id="Cqq-tC-EyV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="90F-gD-3Ob"/>
                         <color key="backgroundColor" systemColor="labelColor"/>
                         <constraints>
+                            <constraint firstItem="GWt-9v-plO" firstAttribute="leading" secondItem="xO7-mj-e3U" secondAttribute="trailing" constant="23" id="3WX-Ay-9OV"/>
+                            <constraint firstItem="hlt-V3-38U" firstAttribute="top" secondItem="eMT-vE-pso" secondAttribute="bottom" constant="45" id="3m5-0r-EPm"/>
                             <constraint firstItem="RLt-8T-s93" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" constant="197" id="Alx-wS-ytV"/>
                             <constraint firstItem="7hy-20-b8P" firstAttribute="trailing" secondItem="90F-gD-3Ob" secondAttribute="trailing" id="EMh-wv-V6b"/>
                             <constraint firstItem="eMT-vE-pso" firstAttribute="top" secondItem="cko-7n-RMZ" secondAttribute="bottom" constant="8" symbolic="YES" id="FW3-ZO-aYK"/>
+                            <constraint firstItem="hlt-V3-38U" firstAttribute="leading" secondItem="GWt-9v-plO" secondAttribute="trailing" constant="8" symbolic="YES" id="Fag-rG-8nO"/>
+                            <constraint firstItem="ZPw-48-IYP" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" constant="20" id="HJa-3J-PzB"/>
+                            <constraint firstItem="GWt-9v-plO" firstAttribute="top" secondItem="eMT-vE-pso" secondAttribute="bottom" constant="44" id="HMp-ZK-zez"/>
+                            <constraint firstItem="ZPw-48-IYP" firstAttribute="top" secondItem="eMT-vE-pso" secondAttribute="bottom" constant="45" id="J1D-S9-Xe0"/>
+                            <constraint firstItem="hlt-V3-38U" firstAttribute="leading" secondItem="GWt-9v-plO" secondAttribute="trailing" constant="8" symbolic="YES" id="J2L-z6-MgM"/>
                             <constraint firstItem="RLt-8T-s93" firstAttribute="top" secondItem="7hy-20-b8P" secondAttribute="bottom" constant="24" id="JZh-Wf-THM"/>
+                            <constraint firstItem="M3f-xz-8VP" firstAttribute="top" secondItem="eMT-vE-pso" secondAttribute="bottom" constant="45" id="KKW-nx-iyj"/>
                             <constraint firstItem="eMT-vE-pso" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" constant="20" id="LlJ-hm-Pez"/>
+                            <constraint firstItem="GWt-9v-plO" firstAttribute="leading" secondItem="xO7-mj-e3U" secondAttribute="trailing" constant="23" id="OK1-4c-Ghr"/>
                             <constraint firstItem="7hy-20-b8P" firstAttribute="top" secondItem="90F-gD-3Ob" secondAttribute="top" id="UhH-FI-ZDX"/>
                             <constraint firstItem="cko-7n-RMZ" firstAttribute="top" secondItem="RLt-8T-s93" secondAttribute="bottom" constant="16" id="V0H-bS-q3c"/>
+                            <constraint firstItem="M3f-xz-8VP" firstAttribute="leading" secondItem="ZPw-48-IYP" secondAttribute="trailing" constant="8" symbolic="YES" id="aRB-OP-won"/>
+                            <constraint firstItem="xO7-mj-e3U" firstAttribute="top" secondItem="eMT-vE-pso" secondAttribute="bottom" constant="44" id="bhO-n3-G6W"/>
                             <constraint firstItem="cko-7n-RMZ" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" constant="20" id="gdd-zL-hoJ"/>
                             <constraint firstItem="90F-gD-3Ob" firstAttribute="trailing" secondItem="eMT-vE-pso" secondAttribute="trailing" constant="20" id="q7u-hf-aKJ"/>
                             <constraint firstItem="90F-gD-3Ob" firstAttribute="trailing" secondItem="cko-7n-RMZ" secondAttribute="trailing" constant="20" id="qFM-av-Usx"/>
                             <constraint firstItem="90F-gD-3Ob" firstAttribute="trailing" secondItem="RLt-8T-s93" secondAttribute="trailing" constant="197" id="s6h-ie-ilr"/>
+                            <constraint firstItem="xO7-mj-e3U" firstAttribute="leading" secondItem="M3f-xz-8VP" secondAttribute="trailing" constant="28" id="t6u-f4-dAa"/>
                             <constraint firstItem="7hy-20-b8P" firstAttribute="leading" secondItem="90F-gD-3Ob" secondAttribute="leading" id="trm-5g-Zms"/>
+                            <constraint firstItem="90F-gD-3Ob" firstAttribute="trailing" secondItem="hlt-V3-38U" secondAttribute="trailing" constant="20" id="wpI-fL-Sy9"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="homekit" catalog="system" id="hIk-7s-H51"/>
                     <connections>
                         <outlet property="collectionView" destination="eMT-vE-pso" id="YPx-to-ACN"/>
+                        <outlet property="firstPageButton" destination="ZPw-48-IYP" id="lTm-ZP-8od"/>
+                        <outlet property="lastPageButton" destination="hlt-V3-38U" id="A0A-6t-GAF"/>
                         <outlet property="loadingIndicator" destination="RLt-8T-s93" id="L65-0p-rHU"/>
+                        <outlet property="nextPageButton" destination="GWt-9v-plO" id="0vD-ud-vWE"/>
+                        <outlet property="pageCount" destination="xO7-mj-e3U" id="qPj-tQ-P2s"/>
+                        <outlet property="previousPageButton" destination="M3f-xz-8VP" id="59L-Uy-CRN"/>
                         <outlet property="searchBar" destination="7hy-20-b8P" id="ai1-i0-iAv"/>
                     </connections>
                 </viewController>

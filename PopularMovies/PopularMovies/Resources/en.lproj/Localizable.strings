@@ -1,1 +1,5 @@
-"localizableSample" = "Sample";
+// Home Controller
+"first" = "First";
+"last" = "Last";
+"previous" = "Previous";
+"next" = "Next";

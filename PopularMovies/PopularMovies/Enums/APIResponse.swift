@@ -1,0 +1,3 @@
+enum APIResponse {
+    case requestFailure
+}

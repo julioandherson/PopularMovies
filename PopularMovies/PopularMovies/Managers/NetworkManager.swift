@@ -52,36 +52,50 @@ class NetworkManager {
         return movie
     }
 
+    /// Create a page information object.
+    /// - Parameter dictionary: The  dictionary to create pagination.
+    /// - Returns: Pagination.
+    private func getPageInformationFrom(dictionary: [String: Any]) -> Pagination {
+        let currentPage = dictionary["page"] as? Int
+        let totalPages = dictionary["total_pages"] as? Int
+        
+        let pagination = Pagination(currentPage: currentPage!, totalPages: totalPages!)
+        return pagination
+    }
+
     // MARK: - Public functions
     /// Fetch popular movies.
     /// - Parameters:
     ///   - page: The number of movies page.
     ///   - completionHandler: A closure which is called with movies list.
     func fetchPopularMovies(page: Int = 1,
-                            completionHandler: @escaping ([Movie]) -> Void) {
+                            completionHandler: @escaping ([Movie], Pagination?, APIResponse?) -> Void) {
         var movies = [Movie]()
         if let url = URL(string: getPopularMoviesAddress(page: page)) {
             let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let error = error {
                     print("Error fetching movies: \(error)")
-                    // TODO: Handler error
+                    completionHandler([], nil, .requestFailure)
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     print("Error with the fetching movies response, unexpected status code: \(String(describing: response))")
-                    // TODO: Handler error
+                    completionHandler([], nil, .requestFailure)
                     return
                 }
 
                 if let data = data {
-                    if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let results = json["results"] as? [[String: Any]] {
+                    if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let results = json["results"] as? [[String: Any]] {
+                        let pagination = self.getPageInformationFrom(dictionary: json)
+                        
                         for movieDictionary in results {
                             let movie = self.getMovieFrom(dictionary: movieDictionary)
                             movies.append(movie)
                         }
                         DispatchQueue.main.async {
-                            completionHandler(movies)
+                            completionHandler(movies, pagination, nil)
                         }
                     }
                 }
@@ -89,7 +103,7 @@ class NetworkManager {
             task.resume()
         } else {
             print("Fetch movies error")
-            // TODO: Handle fetch movies error
+            completionHandler([], nil, .requestFailure)
         }
     }
 
@@ -100,32 +114,34 @@ class NetworkManager {
     ///   - completionHandler: A closure which is called with searched movies list.
     func searchMovies(page: Int = 1,
                       queryString: String,
-                      completionHandler: @escaping ([Movie]) -> Void) {
+                      completionHandler: @escaping ([Movie], Pagination?, APIResponse?) -> Void) {
         var movies = [Movie]()
 
         let querySearch = queryString.removeExtraSpaces().replacingOccurrences(of: " ", with: "+")
         if let url = URL(string: getSearchMoviesAddress(page: page) + querySearch) {
             let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let error = error {
-                    print("Error fetching movies: \(error)")
-                    // TODO: Handler error
+                    print("Error searching movies: \(error)")
+                    completionHandler([], nil, .requestFailure)
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    print("Error with the fetching movies response, unexpected status code: \(String(describing: response))")
-                    // TODO: Handler error
+                    print("Error with the searching movies response, unexpected status code: \(String(describing: response))")
+                    completionHandler([], nil, .requestFailure)
                     return
                 }
 
                 if let data = data {
                     if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let results = json["results"] as? [[String: Any]] {
+                        let pagination = self.getPageInformationFrom(dictionary: json)
+
                         for movieDictionary in results {
                             let movie = self.getMovieFrom(dictionary: movieDictionary)
                             movies.append(movie)
                         }
                         DispatchQueue.main.async {
-                            completionHandler(movies)
+                            completionHandler(movies, pagination, nil)
                         }
                     }
                 }
@@ -133,7 +149,7 @@ class NetworkManager {
             task.resume()
         } else {
             print("URL error with follow query: \(querySearch)")
-            // TODO: Handle search error
+            completionHandler([], nil, .requestFailure)
         }
     }
 }
