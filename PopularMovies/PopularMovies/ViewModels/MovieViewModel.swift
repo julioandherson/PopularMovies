@@ -1,13 +1,14 @@
-/// View Model responsible to handler popular movies list.
-class HomeViewModel {
+class MovieViewModel {
     let networkManager = NetworkManager()
     /// The movie list.
     var movies = [Movie]()
     /// The pagination information.
     var pagination: Pagination!
+    /// The formated query to search movies.
+    var formatedQuery = String()
     /// The query search.
-    var querySearch =  String()
-
+    var querySearch = String()
+    
     /// Call fetch movies endpoint.
     /// - Parameters:
     ///   - page: The page.

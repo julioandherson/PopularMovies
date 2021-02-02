@@ -21,8 +21,8 @@ class HomeController: UIViewController {
     @IBOutlet weak var lastPageButton: UIButton!
 
     // MARK: - Properties
-    /// The home view model.
-    let homeViewModel = HomeViewModel()
+    /// The movie view model.
+    let movieViewModel = MovieViewModel()
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -44,7 +44,7 @@ class HomeController: UIViewController {
     func fetchMovies(page: Int = 1) {
         loadingIndicator.isHidden = false
 
-        homeViewModel.fetchPopularMovies(page: page, completionHandler: { errorResponse in
+        movieViewModel.fetchPopularMovies(page: page, completionHandler: { errorResponse in
             self.loadingIndicator.isHidden = true
 
             if let error = errorResponse { // TODO: use this value
@@ -60,7 +60,7 @@ class HomeController: UIViewController {
 
     /// Setup current page label.
     func setupPaginationCounter() {
-        if let pagination = homeViewModel.pagination {
+        if let pagination = movieViewModel.pagination {
             pageCount.text = String(pagination.currentPage)
         }
     }
@@ -94,14 +94,14 @@ class HomeController: UIViewController {
     /// Navigate to last page.
     /// - Parameter sender: The last page button.
     @IBAction func lastPageAction(_ sender: UIButton) {
-        fetchMovies(page: homeViewModel.pagination.totalPages)
+        fetchMovies(page: movieViewModel.pagination.totalPages)
         setupPaginationCounter()
     }
     
     /// Navigate to previous page.
     /// - Parameter sender: The previous page button.
     @IBAction func previousPageAction(_ sender: UIButton) {
-        let currentPage = homeViewModel.pagination.currentPage - 1
+        let currentPage = movieViewModel.pagination.currentPage - 1
         if currentPage >= 1 {
             fetchMovies(page: currentPage)
             setupPaginationCounter()
@@ -111,8 +111,8 @@ class HomeController: UIViewController {
     /// Navigate to next page.
     /// - Parameter sender: The next page button.
     @IBAction func nextPageAction(_ sender: UIButton) {
-        let currentPage = homeViewModel.pagination.currentPage + 1
-        if currentPage <= homeViewModel.pagination.totalPages {
+        let currentPage = movieViewModel.pagination.currentPage + 1
+        if currentPage <= movieViewModel.pagination.totalPages {
             fetchMovies(page: currentPage)
             setupPaginationCounter()
         }
@@ -122,14 +122,14 @@ class HomeController: UIViewController {
 // MARK: - Collection view delegate
 extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return homeViewModel.movies.count
+        return movieViewModel.movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.movieCell, for: indexPath) as? MovieViewCell else {
             fatalError("Dequeue reusable MovieViewCell error")
         }
-        let movie = homeViewModel.movies[indexPath.row]
+        let movie = movieViewModel.movies[indexPath.row]
 
         let movieURL = URL(string: movie.posterPath)!
         movieCell.poster.downloaded(from: movieURL)
@@ -143,7 +143,7 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedMovie = homeViewModel.movies[indexPath.row]
+        let selectedMovie = movieViewModel.movies[indexPath.row]
 
         let storyBoard: UIStoryboard = UIStoryboard(name: Constants.movieDetailsView, bundle: nil)
         let movieDetailsController = storyBoard.instantiateViewController(withIdentifier: Constants.movieDetailsController) as! MovieDetailsController
@@ -159,8 +159,8 @@ extension HomeController: UISearchBarDelegate {
         if let searchText = searchBar.text, !searchText.isEmpty {
             loadingIndicator.isHidden = false
             
-            homeViewModel.querySearch = searchText
-            homeViewModel.searchMovies(completionHandler: { errorResponse in
+            movieViewModel.querySearch = searchText
+            movieViewModel.searchMovies(completionHandler: { errorResponse in
                 self.loadingIndicator.isHidden = true
 
                 if let error = errorResponse { // TODO: use this value
@@ -170,8 +170,8 @@ extension HomeController: UISearchBarDelegate {
                     DispatchQueue.main.async {
                         let searchResultsController = storyBoard.instantiateViewController(withIdentifier: Constants.searchResultsController) as! SearchResultsController
                         searchResultsController.setupSearchResults(query: searchText,
-                                                                   movies: self.homeViewModel.movies,
-                                                                   pagination: self.homeViewModel.pagination!)
+                                                                   movies: self.movieViewModel.movies,
+                                                                   pagination: self.movieViewModel.pagination!)
 
                         self.present(searchResultsController, animated: true, completion: nil)
                     }

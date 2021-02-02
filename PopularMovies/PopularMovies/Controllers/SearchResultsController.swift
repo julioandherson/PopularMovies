@@ -19,8 +19,8 @@ class SearchResultsController: UIViewController {
     @IBOutlet weak var lastPageButton: UIButton!
 
     // MARK: - Properties
-    /// The search results view model.
-    let searchResultsViewModel = SearchResultsViewModel()
+    /// The movie view model.
+    let movieViewModel = MovieViewModel()
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -29,7 +29,7 @@ class SearchResultsController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
 
-        queryResults.text = searchResultsViewModel.formatedQuery
+        queryResults.text = movieViewModel.formatedQuery
         setupLabelsText()
         setupPaginationCounter()
 
@@ -43,16 +43,16 @@ class SearchResultsController: UIViewController {
     ///   - movies: The movies searched using query string.
     ///   - pagination: The info pagination.
     func setupSearchResults(query: String, movies: [Movie], pagination: Pagination) {
-        self.searchResultsViewModel.movies = movies
-        self.searchResultsViewModel.formatedQuery = "\"\(query)\""
-        self.searchResultsViewModel.querySearch = query
-        self.searchResultsViewModel.pagination = pagination
+        self.movieViewModel.movies = movies
+        self.movieViewModel.formatedQuery = "\"\(query)\""
+        self.movieViewModel.querySearch = query
+        self.movieViewModel.pagination = pagination
     }
     
     /// Search movies.
     /// - Parameter page: The page.
     func searchMovies(page: Int) {
-        searchResultsViewModel.searchMovies(page: page, completionHandler: { errorResponse in
+        movieViewModel.searchMovies(page: page, completionHandler: { errorResponse in
             if let error = errorResponse { // TODO: use this value
                 self.showErrorAlert()
             } else {
@@ -64,7 +64,7 @@ class SearchResultsController: UIViewController {
 
     /// Setup current page label.
     func setupPaginationCounter() {
-        if let pagination = searchResultsViewModel.pagination {
+        if let pagination = movieViewModel.pagination {
             pageCount.text = String(pagination.currentPage)
         }
     }
@@ -98,14 +98,14 @@ class SearchResultsController: UIViewController {
     /// Navigate to last page.
     /// - Parameter sender: The last page button.
     @IBAction func lastPageAction(_ sender: UIButton) {
-        searchMovies(page: searchResultsViewModel.pagination.totalPages)
+        searchMovies(page: movieViewModel.pagination.totalPages)
         setupPaginationCounter()
     }
 
     /// Navigate to previous page.
     /// - Parameter sender: The previous page button.
     @IBAction func previousPageAction(_ sender: UIButton) {
-        let currentPage = searchResultsViewModel.pagination.currentPage - 1
+        let currentPage = movieViewModel.pagination.currentPage - 1
         if currentPage >= 1 {
             searchMovies(page: currentPage)
             setupPaginationCounter()
@@ -115,8 +115,8 @@ class SearchResultsController: UIViewController {
     /// Navigate to next page.
     /// - Parameter sender: The next page button.
     @IBAction func nextPageAction(_ sender: UIButton) {
-        let currentPage = searchResultsViewModel.pagination.currentPage + 1
-        if currentPage <= searchResultsViewModel.pagination.totalPages {
+        let currentPage = movieViewModel.pagination.currentPage + 1
+        if currentPage <= movieViewModel.pagination.totalPages {
             searchMovies(page: currentPage)
             setupPaginationCounter()
         }
@@ -126,14 +126,14 @@ class SearchResultsController: UIViewController {
 // MARK: - Collection view delegate
 extension SearchResultsController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResultsViewModel.movies.count
+        return movieViewModel.movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let movieCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.movieCell, for: indexPath) as? MovieViewCell else {
             fatalError("Dequeue reusable MovieViewCell error")
         }
-        let movie = searchResultsViewModel.movies[indexPath.row]
+        let movie = movieViewModel.movies[indexPath.row]
 
         let movieURL = URL(string: movie.posterPath)!
         movieCell.poster.downloaded(from: movieURL)
@@ -146,7 +146,7 @@ extension SearchResultsController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedMovie = searchResultsViewModel.movies[indexPath.row]
+        let selectedMovie = movieViewModel.movies[indexPath.row]
 
         let storyBoard: UIStoryboard = UIStoryboard(name: Constants.movieDetailsView, bundle: nil)
         let movieDetailsController = storyBoard.instantiateViewController(withIdentifier: Constants.movieDetailsController) as! MovieDetailsController
