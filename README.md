@@ -7,6 +7,8 @@ It's a iOS app to list popular movies and this list is updated every day. Also i
 
 <img src="https://github.com/julioandherson/PopularMovies/blob/development/Screenshots/search.png" alt="Search" width="500" height="900">
 
+<img src="https://github.com/julioandherson/PopularMovies/blob/development/Screenshots/details.png" alt="Details" width="500" height="900">
+
 ## To do list
 - Tests
 - Landscape support
