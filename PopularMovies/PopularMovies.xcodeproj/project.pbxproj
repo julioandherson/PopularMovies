@@ -119,6 +119,7 @@
 		281720AA25BF9128009E4B2C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				28C8B49325BDC78C0012F975 /* ViewController.swift */,
 				281720AB25BF9156009E4B2C /* HomeController.swift */,
 				2817210B25C10E99009E4B2C /* FavoritesController.swift */,
 				281720F725C06C04009E4B2C /* MovieDetailsController.swift */,
@@ -182,6 +183,8 @@
 		281720F125C06B8C009E4B2C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				28C8B49A25BDC78D0012F975 /* LaunchScreen.storyboard */,
+				28C8B49525BDC78C0012F975 /* Main.storyboard */,
 				281720F225C06BBB009E4B2C /* MovieDetailsView.storyboard */,
 				283D5F3425C25E2F00A8EA22 /* SearchResultsView.storyboard */,
 			);
@@ -191,6 +194,7 @@
 		2851C41925C780E4009CF86B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28C8B49825BDC78D0012F975 /* Assets.xcassets */,
 				2851C42425C7810D009CF86B /* Localizable.strings */,
 			);
 			path = Resources;
@@ -248,10 +252,6 @@
 				281720AA25BF9128009E4B2C /* Controllers */,
 				28C8B48F25BDC78C0012F975 /* AppDelegate.swift */,
 				28C8B49125BDC78C0012F975 /* SceneDelegate.swift */,
-				28C8B49325BDC78C0012F975 /* ViewController.swift */,
-				28C8B49525BDC78C0012F975 /* Main.storyboard */,
-				28C8B49825BDC78D0012F975 /* Assets.xcassets */,
-				28C8B49A25BDC78D0012F975 /* LaunchScreen.storyboard */,
 				28C8B49D25BDC78D0012F975 /* Info.plist */,
 			);
 			path = PopularMovies;
