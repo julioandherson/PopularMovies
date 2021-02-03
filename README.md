@@ -1,6 +1,12 @@
 # PopularMovies
 It's a iOS app to list popular movies and this list is updated every day. Also it's possible search movies and keep favorites movies on a list.
 
+<img src="https://github.com/julioandherson/PopularMovies/blob/development/Screenshots/home.png" alt="Home" width="500" height="900">
+
+<img src="https://github.com/julioandherson/PopularMovies/blob/development/Screenshots/favorites.png" alt="Favortes" width="500" height="900">
+
+<img src="https://github.com/julioandherson/PopularMovies/blob/development/Screenshots/search.png" alt="Search" width="500" height="900">
+
 ## To do list
 - Tests
 - Landscape support
