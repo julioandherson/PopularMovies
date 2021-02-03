@@ -1,3 +1,6 @@
-enum APIResponse {
-    case requestFailure
+enum APIResponse: Error {
+    case requestError(message: String)
+    case fetchMoviesError
+    case searchMoviesError
+    case unknownError
 }

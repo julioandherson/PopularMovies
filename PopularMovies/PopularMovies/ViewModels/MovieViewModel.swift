@@ -21,7 +21,7 @@ class MovieViewModel {
         networkManager.fetchPopularMovies(page: page, completionHandler: { movies, pagination, errorResponse in
 
             if let error = errorResponse {
-                completionHandler(.requestFailure)
+                completionHandler(.requestError(message: error.localizedDescription))
             } else {
                 self.movies = movies
                 self.pagination = pagination
@@ -37,7 +37,7 @@ class MovieViewModel {
     func searchMovies(page: Int = 1, completionHandler: @escaping (APIResponse?) -> Void) {
         networkManager.searchMovies(page: page, queryString: querySearch, completionHandler: { movies, pagination, errorResponse in
             if let error = errorResponse {
-                completionHandler(.requestFailure)
+                completionHandler(.requestError(message: error.localizedDescription))
             } else {
                 self.movies = movies
                 self.pagination = pagination

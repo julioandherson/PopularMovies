@@ -3,8 +3,8 @@ It's a iOS app to list popular movies and this list is updated every day. Also i
 
 ## To do list
 - Tests
-- Errors handler
 - Landscape support
+- Offline images persistence
 
 ## Requirements
 - XCode 12.0+

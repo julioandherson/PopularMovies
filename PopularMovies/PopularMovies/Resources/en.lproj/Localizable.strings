@@ -7,3 +7,11 @@
 
 // Favorites Controller
 "FavoritesMovies" = "FAVORITES MOVIES";
+
+// Dialog Protocol
+"DialogTitle" = "Error";
+"DialogMessage" = "Request error. Try again later";
+"Ok" = "OK";
+
+// Errors
+"RequestError" = "Request Error";

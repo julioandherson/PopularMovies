@@ -1,7 +1,7 @@
 import UIKit
 
 /// Controller responsible to display main view in which is displayed popular movies.
-class HomeController: UIViewController {
+class HomeController: UIViewController, DialogProtocol {
     // MARK: - Outlets
     /// The movies collection view.
     @IBOutlet weak var collectionView: UICollectionView!
@@ -52,11 +52,8 @@ class HomeController: UIViewController {
 
         movieViewModel.fetchPopularMovies(page: page, completionHandler: { errorResponse in
             self.loadingIndicator.isHidden = true
-
-            if let error = errorResponse { // TODO: use this value
-                let alert = UIAlertController(title: "Request failure", message: "Message", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+            if let error = errorResponse {
+                self.showErrorAlert(controller: self, message: error.localizedDescription)
             } else {
                 self.setupPaginationCounter()
                 self.collectionView.reloadData()
@@ -87,15 +84,6 @@ class HomeController: UIViewController {
     func setupFavoriteImage(isFavorited: Bool) -> UIImage {
         let resourceName = isFavorited ? Constants.starFilled : Constants.starEmpty
         return UIImage(imageLiteralResourceName: resourceName)
-    }
-
-    /// Display error alert.
-    func showErrorAlert() {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Request failure", message: "Message", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
     }
 
     // MARK: - Actions
@@ -189,8 +177,8 @@ extension HomeController: UISearchBarDelegate {
             movieViewModel.searchMovies(completionHandler: { errorResponse in
                 self.loadingIndicator.isHidden = true
 
-                if let error = errorResponse { // TODO: use this value
-                    self.showErrorAlert()
+                if let error = errorResponse {
+                    self.showErrorAlert(controller: self, message: error.localizedDescription)
                 } else {
                     let storyBoard: UIStoryboard = UIStoryboard(name: Constants.searchResultsView, bundle: nil)
                     DispatchQueue.main.async {

@@ -1,7 +1,7 @@
 import UIKit
 
 /// Class represents movie search results.
-class SearchResultsController: UIViewController {
+class SearchResultsController: UIViewController, DialogProtocol {
     // MARK: - Outlets
     /// The searched movies collection view.
     @IBOutlet weak var collectionView: UICollectionView!
@@ -53,8 +53,8 @@ class SearchResultsController: UIViewController {
     /// - Parameter page: The page.
     func searchMovies(page: Int) {
         movieViewModel.searchMovies(page: page, completionHandler: { errorResponse in
-            if let error = errorResponse { // TODO: use this value
-                self.showErrorAlert()
+            if let error = errorResponse {
+                self.showErrorAlert(controller: self, message: error.localizedDescription)
             } else {
                 self.setupPaginationCounter()
                 self.collectionView.reloadData()
@@ -78,13 +78,12 @@ class SearchResultsController: UIViewController {
         lastPageButton.setTitle("last".localized(), for: .normal)
     }
 
-    /// Display error alert.
-    func showErrorAlert() {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Request failure", message: "Message", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+    /// Change favorite icon acordlying movie persistence.
+    /// - Parameter isFavorited: The is favorite flag.
+    /// - Returns: A UIImage containing a filled star or empty star icon.
+    func setupFavoriteImage(isFavorited: Bool) -> UIImage {
+        let resourceName = isFavorited ? Constants.starFilled : Constants.starEmpty
+        return UIImage(imageLiteralResourceName: resourceName)
     }
 
     // MARK: - Actions
@@ -139,8 +138,20 @@ extension SearchResultsController: UICollectionViewDataSource, UICollectionViewD
         movieCell.poster.downloaded(from: movieURL)
         movieCell.movieTitle.text = movie.title
         
+        if movieViewModel.hasMovie(id: movie.id) {
+            movieCell.favoriteIcon.setImage(setupFavoriteImage(isFavorited: true), for: .normal)
+        } else {
+            movieCell.favoriteIcon.setImage(setupFavoriteImage(isFavorited: false), for: .normal)
+        }
+        
         movieCell.favoriteButtonPressed = {
-            print("Favorite movie press: \(movie.title)") // TODO: Implement
+            if self.movieViewModel.hasMovie(id: movie.id) {
+                movieCell.favoriteIcon.setImage(self.setupFavoriteImage(isFavorited: false), for: .normal)
+                self.movieViewModel.persistenceManager.deleteMovie(id: movie.id)
+            } else {
+                movieCell.favoriteIcon.setImage(self.setupFavoriteImage(isFavorited: true), for: .normal)
+                self.movieViewModel.persistenceManager.save(movie: movie)
+            }
         }
         return movieCell
     }

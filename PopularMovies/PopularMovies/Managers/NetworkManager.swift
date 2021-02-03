@@ -75,13 +75,13 @@ class NetworkManager {
             let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let error = error {
                     print("Error fetching movies: \(error)")
-                    completionHandler([], nil, .requestFailure)
+                    completionHandler([], nil, .requestError(message: error.localizedDescription))
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     print("Error with the fetching movies response, unexpected status code: \(String(describing: response))")
-                    completionHandler([], nil, .requestFailure)
+                    completionHandler([], nil, .requestError(message: error?.localizedDescription ?? "RequestError".localized()))
                     return
                 }
 
@@ -103,7 +103,7 @@ class NetworkManager {
             task.resume()
         } else {
             print("Fetch movies error")
-            completionHandler([], nil, .requestFailure)
+            completionHandler([], nil, .fetchMoviesError)
         }
     }
 
@@ -122,13 +122,13 @@ class NetworkManager {
             let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if let error = error {
                     print("Error searching movies: \(error)")
-                    completionHandler([], nil, .requestFailure)
+                    completionHandler([], nil, .requestError(message: error.localizedDescription))
                     return
                 }
 
                 guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     print("Error with the searching movies response, unexpected status code: \(String(describing: response))")
-                    completionHandler([], nil, .requestFailure)
+                    completionHandler([], nil, .requestError(message: response?.description ?? "RequestError".localized()))
                     return
                 }
 
@@ -149,7 +149,7 @@ class NetworkManager {
             task.resume()
         } else {
             print("URL error with follow query: \(querySearch)")
-            completionHandler([], nil, .requestFailure)
+            completionHandler([], nil, .searchMoviesError)
         }
     }
 }
